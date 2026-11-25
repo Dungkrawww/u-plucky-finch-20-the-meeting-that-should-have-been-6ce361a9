@@ -1,24 +1,14 @@
-# u-plucky-finch-20-the-meeting-that-should-have-been-6ce361a9: The Meeting That Should Have Been an Email
-# A single funny line of text, at most 200 characters.
-# The program writes the line to /output/entry.txt (or $MAKEFUN_OUTPUT_DIR).
+# Entry for make.fun "The Meeting That Should Have Been an Email".
+# Writes a single funny line (119 characters) to entry.txt.
+
 import os
 
-OUT = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
 LINE = "We spent an hour in a meeting deciding what the email should say, then scheduled another meeting to approve sending it."
 
+output_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output/entry.txt")
+if output_dir.endswith("entry.txt"):
+    output_dir = os.path.dirname(output_dir) or "."
+os.makedirs(output_dir, exist_ok=True)
 
-def validate_line(text):
-    assert 1 <= len(text) <= 200, "line must be 1-200 characters"
-    assert text.strip(), "line must not be only whitespace"
-    assert "\n" not in text, "line must be a single line"
-
-
-def main():
-    validate_line(LINE)
-    os.makedirs(OUT, exist_ok=True)
-    with open(os.path.join(OUT, "entry.txt"), "w", encoding="utf-8") as f:
-        f.write(LINE)
-
-
-if __name__ == "__main__":
-    main()
+with open(os.path.join(output_dir, "entry.txt"), "w", encoding="utf-8") as f:
+    f.write(LINE + "\n")
